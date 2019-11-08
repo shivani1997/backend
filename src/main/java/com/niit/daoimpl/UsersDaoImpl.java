@@ -1,4 +1,5 @@
 package com.niit.daoimpl;
+import java.lang.reflect.Method;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -8,6 +9,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.niit.dao.UsersDao;
@@ -22,6 +25,9 @@ public class UsersDaoImpl implements UsersDao
 	
 	public boolean addUser(Users user) {
 		// TODO Auto-generated method stub
+		user.setEnabled(true);
+		user.setAuthority("user");
+		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 		sessionFactory.getCurrentSession().save(user);
 		return true;
 		
@@ -73,8 +79,15 @@ public class UsersDaoImpl implements UsersDao
 		// TODO Auto-generated method stub
 		try 
 		{
-			Criteria ctx=sessionFactory.getCurrentSession().createCriteria(Users.class);
-			return (Users)ctx.add(Restrictions.eq("username",user.getUsername())).list().get(0);
+			System.out.println("inside method...........");
+			Query query=sessionFactory.getCurrentSession().createQuery("com.niit.model.User where username:username");
+			query.setParameter("username", user.getUsername());
+			Users u=(Users)query.getResultList().get(0);
+			System.out.println("inside method...................");
+			System.out.println(u.getUsername());
+			System.out.println(u.getAuthority());
+			System.out.println(u.isEnabled());
+			return u;
 		} 
 		catch (Exception e) {
 			// TODO: handle exception

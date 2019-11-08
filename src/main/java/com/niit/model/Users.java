@@ -25,11 +25,11 @@ public class Users
 	@Column
 	@Size(min=4,message="Username length should be of minimum character 4")
 	private String username;
-	@Pattern(regexp="[A-Z0-9._%+-]+@[A-Z0-9.-]+\\\\.[A-Z] {2,6}$",message="Email is invalid")
+	//@Pattern(regexp="[A-Z0-9._%+-]+@[A-Z0-9.-]+\\\\.[A-Z] {2,6}$",message="Email is invalid")
 	private String email;
 	@Pattern(regexp="^\\d{10}$",message="Mobile number is invalid")
 	private String mobile;
-	@Pattern(regexp="(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#_-]).{8,16}",message="Password is weak")
+	//@Pattern(regexp="(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#_-]).{8,16}",message="Password is weak")
 	private String password;
 	String status;
 	
