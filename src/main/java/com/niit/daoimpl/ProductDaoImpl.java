@@ -17,30 +17,23 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ProductDaoImpl implements ProductDao
 {
-	SessionFactory sessionFactory;
 	@Autowired
+	SessionFactory sessionFactory;
 	
-	public void addProduct(ProductDao product) {
-		
-			
+	public void addProduct(Product product) 
+	{
+		product.setStatus("A");
 		sessionFactory.getCurrentSession().save(product);
-		
-		
-		
 	}
 
-	public void deleteProduct(ProductDao product) {
-		
-			
-		sessionFactory.getCurrentSession().save(product);
-		
-		
+	public void deleteProduct(Product product) 
+	{
+		sessionFactory.getCurrentSession().delete(product);
 	}
 
-	public void updateProduct(ProductDao product) {
-		// TODO Auto-generated method stub
-		sessionFactory.getCurrentSession().save(product);
-		
+	public void updateProduct(Product product) 
+	{
+		sessionFactory.getCurrentSession().update(product);
 	}
 
 	public List<ProductDao> displayProducts()
@@ -49,7 +42,6 @@ public class ProductDaoImpl implements ProductDao
 		{
 			//HQL - Hibernate Query Language
 			return sessionFactory.getCurrentSession().createQuery("from com.niit.model.Product").list();
-			
 		}
 		catch (Exception e) 
 		{
@@ -64,7 +56,7 @@ public class ProductDaoImpl implements ProductDao
 			 //positional arguments - ?
 			 //Named      arguments - :anyname
 			
-			 Query query=sessionFactory.getCurrentSession().createQuery("from com.niit.model.User where productid= :productid");
+			 Query query=sessionFactory.getCurrentSession().createQuery("from com.niit.model.Product where productid= :productid");
 			 query.setParameter("productid", product.getProductid());
 			 return (Product)query.getResultList().get(0);
 		}
@@ -89,6 +81,16 @@ public class ProductDaoImpl implements ProductDao
 		{
 			return null;
 		}
+}
+
+	public void deleteProduct(ProductDao product) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void updateProduct(ProductDao product) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	public ProductDao displayProductById(ProductDao product) {
@@ -105,5 +107,4 @@ public class ProductDaoImpl implements ProductDao
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }
